@@ -1,18 +1,31 @@
-export function DropdownMenu(props){
-    const {labelText, isSingleSelect} = props;
-    return(
-        <div className="wrapper">
-            <label htmlFor="selectList">{labelText}</label>
-            <select className="select-menu" name="selectList" id="selectList">
-                {props.children}
-            </select>
-        </div>
-    );
-}
+import { useState } from "react";
 
-export function Option(props) {
-    const {selected, value, text, disabled} = props;
+export function DropdownMenu(props) {
+    const { options, labelText, onChange } = props;
+    const [isOpen, setIsOpen] = useState(false);
+
+    function setOption(option) {
+        onChange(option)
+    }
     return (
-        <option selected={selected} value={value} disabled={disabled}>{text}</option>
+        <div tabIndex={0} onClick={() => setIsOpen(!isOpen)} className="container">
+            <span className="value">{labelText.label}</span>
+            {isOpen ? (
+                <div><i class="arrow up"></i></div>
+            ) : (
+                <div><i class="arrow down"></i></div>
+            )}
+            <ul className={`${"options"} ${isOpen ? "open" : ""}`}>
+                {options.map(option => (
+                    <li key={option.value} className="options-item"
+                        onClick={e => {
+                            setOption(option)
+                        }}
+                    >
+                        {option.label}
+                    </li>
+                ))}
+            </ul>
+        </div>
     )
 }
