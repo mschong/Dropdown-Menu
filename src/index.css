@@ -1,0 +1,12 @@
+.wrapper {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+}
+
+.select-menu {
+  max-width: 20%;
+  height: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
