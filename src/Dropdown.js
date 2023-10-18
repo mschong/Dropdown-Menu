@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function DropdownMenu(props) {
     const { options, isSingleSelect, defaultValue } = props;
@@ -10,6 +10,7 @@ export function DropdownMenu(props) {
 
     function setValue(value) {
         if (isSingleSelect) {
+            setValues(values => [value])
             setDisplayedValues(value.label);
         } else {
             const newValues = values.slice();
@@ -19,42 +20,46 @@ export function DropdownMenu(props) {
                 newValues.push(value);
             }
             setValues(newValues);
-            const labels = newValues.map(value => value.label);
-            setDisplayedValues(labels.join(", "));
         }
     }
 
     function handleSelectAll() {
         setIsCheckAll(!isCheckAll);
-        if(isCheckAll) {
+        if (isCheckAll) {
             setCheckBox([])
-            setDisplayedValues("");
+            setValues([]);
         } else {
             setCheckBox(options.map(option => option.value));
-            const allOptions = options.map(option => option.label);
             setValues(options);
-            setDisplayedValues(allOptions.join(", "));
         }
     }
 
-   function handleCheck(e){
-        const { id, checked } = e.target;
-        if(checked){
-            setCheckBox([...checkBox, id]);
+    function handleCheck(option) {
+        console.log("clicked")
+        console.log(checkBox);
+        const checked = checkBox.includes(option.value);
+        if (checked) {
+            setCheckBox(checkBox.filter(item => item !== option.value))
         } else {
-            setCheckBox(checkBox.filter(item => item !== id))
+            setCheckBox([...checkBox, option.value]);
         }
     }
+
+    function isSelected(option) {
+        return values.includes(option);
+    }
+
+    useEffect(() => {
+        const labels = values.map(value => value.label);
+        setDisplayedValues(labels.join(", "));
+    }, [values])
+
 
     return (
-        <div tabIndex={0} className="container">
-            <span className="value" onClick={() => setIsOpen(!isOpen)}>{displayedValues}</span>
-            <div className="arrow-container" onClick={() => setIsOpen(!isOpen)}>
-                {isOpen ? (
-                    <i className="arrow up"></i>
-                ) : (
-                    <i className="arrow down"></i>
-                )}
+        <div tabIndex={0} className="container" >
+            <span className="value" onClick={() => setIsOpen(!isOpen)} >{displayedValues}</span>
+            <div className="arrow-container" onClick={() => setIsOpen(!isOpen)} >
+                <i className={`arrow ${isOpen ? "up" : "down"}`}></i>
             </div>
             <ul className={`${"options"} ${isOpen ? "open" : ""}`}>
                 {isSingleSelect ? (
@@ -67,7 +72,7 @@ export function DropdownMenu(props) {
                 )}
                 {options.map(option => (
                     isSingleSelect ? (
-                        <li key={option.value} className="options-item"
+                        <li key={option.value} className={`${"options-item"} ${isSelected(option) ? "selected" : ""}`}
                             onClick={e => {
                                 setValue(option)
                                 setIsOpen(!isOpen)
@@ -76,7 +81,13 @@ export function DropdownMenu(props) {
                             {option.label}
                         </li>
                     ) : (
-                        <li key={option.value} className="options-item">
+                        <li
+                            key={option.value}
+                            className={`${"options-item"} ${isSelected(option) ? "selected" : ""}`}
+                            onClick={e => {
+                                setValue(option)
+                                handleCheck(option)
+                            }}>
                             <Checkbox
                                 id={option.value}
                                 name={option.label}
@@ -84,7 +95,7 @@ export function DropdownMenu(props) {
                                 isChecked={checkBox.includes(option.value)}
                                 handleClick={e => {
                                     setValue(option)
-                                    handleCheck(e)
+                                    handleCheck(option)
                                 }}
                             />
                             {option.label}
@@ -92,7 +103,7 @@ export function DropdownMenu(props) {
                     )
                 ))}
             </ul>
-        </div>
+        </div >
     )
 }
 

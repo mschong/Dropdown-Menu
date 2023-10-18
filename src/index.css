@@ -1,13 +1,13 @@
 .container {
   position: relative;
-  border: .12rem solid black;
+  border: .15rem solid rgb(175, 173, 173);
   display: flex;
   border-radius: .3rem;
   width: 30rem;
   padding: .5rem;
 }
 .container:focus {
-  border-color: rgb(12, 179, 20);
+  border-color: rgb(98, 162, 204);
 }
 
 .value {
@@ -22,7 +22,7 @@
 }
 
 .arrow {
-  border: solid black;
+  border: solid rgb(199, 199, 199);
   border-width: 0 3px 3px 0;
   display: inline-block;
   padding: 3px;
@@ -44,7 +44,7 @@
   padding: 0;
   display: none;
   position: absolute;
-  top: calc(100% + 1rem);
+  top: calc(100% + .5rem);
   left: 0;
   border: 0.05rem solid black;
   border-radius: .3rem;
@@ -58,9 +58,13 @@
 }
 
 .options-item {
-  padding: .25rem;
+  padding: .5rem;
 }
 
 .options-item:hover {
-  background-color: rgb(233, 255, 221);
+  background-color: rgb(221, 241, 255);
+}
+
+.options-item.selected {
+  background-color: rgb(221, 241, 255);
 }
