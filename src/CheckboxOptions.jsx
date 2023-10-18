@@ -1,5 +1,15 @@
 import { Checkbox } from "./Checkbox";
 
+/**
+ * A list of checkbox items where multiple options can be selected
+ * @param {*} props Component props
+ * @param {object} props.options Object containing options to be displayed
+ * @param {object} props.values Object containing selected values
+ * @param {object} props.checkBox Object containing checked boxes values
+ * @param {event} props.handleClick Event to handle data from child component to parent component
+ * @param {bool} props.isCheckAll Flag to determine if Select All is checked
+ * @param {event} props.handleSelectAll Event to handle when Select All option is selected
+ */
 export function CheckboxOptions(props) {
     const { options, values, checkBox, handleClick, isCheckAll, handleSelectAll } = props;
 
@@ -30,7 +40,6 @@ export function CheckboxOptions(props) {
                     }}>
                     <Checkbox
                         id={option.value}
-                        name={option.label}
                         value={option.value}
                         isChecked={checkBox.includes(option.value)}
                         handleClick={e => {

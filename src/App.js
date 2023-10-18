@@ -1,8 +1,8 @@
 import { DropdownMenu } from "./Dropdown";
 
 const options = [
-  { label: "One", value: "one" },
-  { label: "Two", value: "two" },
+  { label: "One", value: "1" },
+  { label: "Two", value: "2" },
   { label: "Three", value: "3" },
   { label: "Four", value: "4" },
   { label: "Five", value: "5" },
@@ -12,8 +12,8 @@ function App() {
 
   return (
     <div style={{ display: 'flex'}}>
-      <DropdownMenu options={options} isSingleSelect={false} defaultValue={"Multiselect"} />
-      <DropdownMenu options={options} isSingleSelect defaultValue={"Single Select"} />
+      <DropdownMenu options={options} label="Multiple Selection Menu"/>
+      <DropdownMenu options={options} isSingleSelect defaultValue={"Choose an option..."}  label="Single Selection Menu"/>
     </div>
   )
 }

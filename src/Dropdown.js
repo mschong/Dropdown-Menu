@@ -2,9 +2,17 @@ import { useEffect, useState } from "react";
 import { SingleSelectOptions } from "./SingleSelectOptions";
 import { CheckboxOptions } from "./CheckboxOptions";
 
+/**
+ * Dropdown menu - supports a single selected option or multiple selected options 
+ * @param {*} props Component props
+ * @param {object} props.options Object containing the options to be displayed in menu should be in formar {label, value}
+ * @param {bool} props.isSingleSelect Flag to determine if it's a single selection menu
+ * @param {string} props.defaultValue String with the default value to be shown in menu before selecting an option
+ * @returns 
+ */
 export function DropdownMenu(props) {
-    const { options, isSingleSelect, defaultValue } = props;
-    const [displayedValues, setDisplayedValues] = useState(defaultValue);
+    const { options, isSingleSelect, defaultValue, label } = props;
+    const [displayedValues, setDisplayedValues] = useState();
     const [values, setValues] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [checkBox, setCheckBox] = useState([]);
@@ -56,24 +64,33 @@ export function DropdownMenu(props) {
     }
 
     useEffect(() => {
-        const labels = values.map(value => value.label);
-        setDisplayedValues(labels.join(", "));
+        if(values.length === 0){
+            setDisplayedValues(defaultValue);
+        } else {
+            const labels = values.map(value => value.label);
+            setDisplayedValues(labels.join(", "));
+        }
     }, [values])
 
 
     return (
-        <div tabIndex={0} className="container" >
-            <span className="value" onClick={() => setIsOpen(!isOpen)} >{displayedValues}</span>
-            <div className="arrow-container" onClick={() => setIsOpen(!isOpen)} >
-                <i className={`arrow ${isOpen ? "up" : "down"}`}></i>
+        <div className="container">
+            <div className="label-container">
+                <label className="label-text">{label}</label>
             </div>
-            <ul className={`${"options"} ${isOpen ? "open" : ""}`}>
-                {isSingleSelect ?
-                    <SingleSelectOptions options={options} values={values} isOpen={isOpen} handleClick={handleSingleSelectData} />
-                    :
-                    <CheckboxOptions options={options} values={values} checkBox={checkBox} isCheckAll={isCheckAll} handleClick={handleCheckboxData} handleSelectAll={handleSelectAll} />
-                }
-            </ul>
+            <div tabIndex={0} className="menu-container" >
+                <span className="value" onClick={() => setIsOpen(!isOpen)} >{displayedValues}</span>
+                <div className="arrow-container" onClick={() => setIsOpen(!isOpen)} >
+                    <i className={`arrow ${isOpen ? "up" : "down"}`}></i>
+                </div>
+                <ul className={`${"options"} ${isOpen ? "open" : ""}`}>
+                    {isSingleSelect ?
+                        <SingleSelectOptions options={options} values={values} isOpen={isOpen} handleClick={handleSingleSelectData} />
+                        :
+                        <CheckboxOptions options={options} values={values} checkBox={checkBox} isCheckAll={isCheckAll} handleClick={handleCheckboxData} handleSelectAll={handleSelectAll} />
+                    }
+                </ul>
+            </div>
         </div>
     )
 }
