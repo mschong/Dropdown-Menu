@@ -22,9 +22,6 @@ export function DropdownMenu(props) {
         }
     }
 
-    function getCheckedValue(e) {
-        console.log(e.target.value);
-    }
     return (
         <div tabIndex={0} onClick={() => setIsOpen(!isOpen)} className="container">
             <span className="value">{displayedValues}</span>
