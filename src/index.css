@@ -3,7 +3,7 @@
   border: .12rem solid black;
   display: flex;
   border-radius: .3rem;
-  width: 30%;
+  width: 30rem;
   padding: .5rem;
 }
 .container:focus {
@@ -44,7 +44,7 @@
   padding: 0;
   display: none;
   position: absolute;
-  top: 2.5rem;
+  top: calc(100% + 1rem);
   left: 0;
   border: 0.05rem solid black;
   border-radius: .3rem;
