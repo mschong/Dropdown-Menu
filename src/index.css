@@ -16,6 +16,11 @@
   flex-wrap: wrap;
 }
 
+.arrow-container {
+  margin-left: auto;
+  margin-right: 0;
+}
+
 .arrow {
   border: solid black;
   border-width: 0 3px 3px 0;

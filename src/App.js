@@ -10,12 +10,9 @@ const options = [
   {label: "Six", value: "6"},
 ]
 function App() {
-  const [displayedValue, setDisplayedValue] = useState("");
-  const setValue = (value) => {
-    setDisplayedValue(value);
-  }
+
   return (
-    <DropdownMenu labelText={displayedValue} options={options} onChange={setValue} >
+    <DropdownMenu options={options} isSingleSelect={false} defaultValue={"Hello"}>
     </DropdownMenu>
   )
 }
