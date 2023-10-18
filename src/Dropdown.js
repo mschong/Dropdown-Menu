@@ -30,9 +30,9 @@ export function DropdownMenu(props) {
             ) : (
                 <div className="arrow-container"><i className="arrow down"></i></div>
             )}
-            {isSingleSelect ? (
-                <ul className={`${"options"} ${isOpen ? "open" : ""}`}>
+            <ul className={`${"options"} ${isOpen ? "open" : ""}`}>
                     {options.map(option => (
+                        isSingleSelect ? (
                         <li key={option.value} className="options-item"
                             onClick={e => {
                                 setValue(option)
@@ -40,12 +40,8 @@ export function DropdownMenu(props) {
                         >
                             {option.label}
                         </li>
-                    ))}
-                </ul>
-            ) : (
-                <ul className={`${"options"} ${isOpen ? "open" : ""}`}>
-                    {options.map(option => (
-                        <li key={option.value} className="options-item">
+                        ) : (
+                            <li key={option.value} className="options-item">
                             <input
                                 type="checkbox"
                                 value={option.value}
@@ -53,9 +49,9 @@ export function DropdownMenu(props) {
                             />
                             {option.label}
                         </li>
+                        )
                     ))}
                 </ul>
-            )}
         </div>
     )
 }
