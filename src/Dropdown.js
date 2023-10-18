@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { SingleSelectOptions } from "./SingleSelectOptions";
+import { CheckboxOptions } from "./CheckboxOptions";
 
 export function DropdownMenu(props) {
     const { options, isSingleSelect, defaultValue } = props;
@@ -35,8 +37,6 @@ export function DropdownMenu(props) {
     }
 
     function handleCheck(option) {
-        console.log("clicked")
-        console.log(checkBox);
         const checked = checkBox.includes(option.value);
         if (checked) {
             setCheckBox(checkBox.filter(item => item !== option.value))
@@ -45,8 +45,14 @@ export function DropdownMenu(props) {
         }
     }
 
-    function isSelected(option) {
-        return values.includes(option);
+    function handleSingleSelectData(data) {
+        setValue(data.option);
+        setIsOpen(data.open);
+    }
+
+    function handleCheckboxData(data) {
+        setValue(data.option)
+        handleCheck(data.option)
     }
 
     useEffect(() => {
@@ -62,54 +68,17 @@ export function DropdownMenu(props) {
                 <i className={`arrow ${isOpen ? "up" : "down"}`}></i>
             </div>
             <ul className={`${"options"} ${isOpen ? "open" : ""}`}>
-                {isSingleSelect ? (
-                    <></>
-                ) : (
-                    <li key="selectAll" className="options-item">
-                        <Checkbox id="selectAll" name="selectAll" isChecked={isCheckAll} handleClick={handleSelectAll} />
-                        <label>Select All</label>
-                    </li>
-                )}
-                {options.map(option => (
-                    isSingleSelect ? (
-                        <li key={option.value} className={`${"options-item"} ${isSelected(option) ? "selected" : ""}`}
-                            onClick={e => {
-                                setValue(option)
-                                setIsOpen(!isOpen)
-                            }}
-                        >
-                            {option.label}
-                        </li>
-                    ) : (
-                        <li
-                            key={option.value}
-                            className={`${"options-item"} ${isSelected(option) ? "selected" : ""}`}
-                            onClick={e => {
-                                setValue(option)
-                                handleCheck(option)
-                            }}>
-                            <Checkbox
-                                id={option.value}
-                                name={option.label}
-                                value={option.value}
-                                isChecked={checkBox.includes(option.value)}
-                                handleClick={e => {
-                                    setValue(option)
-                                    handleCheck(option)
-                                }}
-                            />
-                            {option.label}
-                        </li>
-                    )
-                ))}
+                {isSingleSelect ?
+                    <SingleSelectOptions options={options} values={values} isOpen={isOpen} handleClick={handleSingleSelectData} />
+                    :
+                    <CheckboxOptions options={options} values={values} checkBox={checkBox} isCheckAll={isCheckAll} handleClick={handleCheckboxData} handleSelectAll={handleSelectAll} />
+                }
             </ul>
-        </div >
+        </div>
     )
 }
 
-function Checkbox(props) {
-    const { id, name, isChecked, handleClick } = props;
-    return (
-        <input id={id} type="checkbox" name={name} checked={isChecked} onChange={handleClick} />
-    )
-}
+
+
+
+
